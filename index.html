@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thrill of the Fight 2 — Swiss Tournament Prototype</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== TABLET FRAME ===================== -->
+<div class="tablet" id="tablet">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-title" id="headerTitle">MULTIPLAYER</div>
+      <div class="header-subtitle" id="headerSub">Swiss Tournament System</div>
+    </div>
+    <div class="header-right">
+      <span class="version-tag">PROTOTYPE v0.1</span>
+    </div>
+  </div>
+
+  <!-- Main: Sidebar + Content -->
+  <div class="main">
+
+    <!-- Sidebar Nav -->
+    <nav class="sidebar">
+      <a class="nav-item" data-nav="home" onclick="navTo('home')">Quick Match</a>
+      <a class="nav-item" data-nav="find" onclick="navTo('find')">Find Match</a>
+      <a class="nav-item" data-nav="private" onclick="navTo('private')">Private Match</a>
+      <div class="nav-divider"></div>
+      <a class="nav-item active" data-nav="tournaments" onclick="navTo('tournaments')">Tournaments</a>
+    </nav>
+
+    <!-- Content Screens -->
+    <div class="content">
+
+      <!-- ========== SCREEN: HOME (Quick Match placeholder) ========== -->
+      <div class="screen" id="screen-home">
+        <div class="player-banner">
+          <div class="player-icon">F</div>
+          <div>
+            <div class="player-name"><span class="status-dot"></span> FARDS_771608</div>
+            <div class="player-meta">
+              <span>W 0 – L 0 – D 0</span>
+              <span>⬆ 1.77m</span>
+              <span>ROOMSCALE 3.20m × 1.20m</span>
+              <span>36ms <span class="status-dot"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="panel text-center" style="padding:40px;">
+          <p style="font-size:.9rem;color:var(--text-mid);">Quick Match screen — not part of this prototype.</p>
+          <p style="margin-top:12px;"><span class="btn btn-primary" onclick="navTo('tournaments')">Go to Tournaments</span></p>
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: FIND (placeholder) ========== -->
+      <div class="screen" id="screen-find">
+        <div class="panel text-center" style="padding:40px;">
+          <p style="font-size:.9rem;color:var(--text-mid);">Find Match screen — not part of this prototype.</p>
+          <p style="margin-top:12px;"><span class="btn btn-primary" onclick="navTo('tournaments')">Go to Tournaments</span></p>
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: PRIVATE (placeholder) ========== -->
+      <div class="screen" id="screen-private">
+        <div class="panel text-center" style="padding:40px;">
+          <p style="font-size:.9rem;color:var(--text-mid);">Private Match screen — not part of this prototype.</p>
+          <p style="margin-top:12px;"><span class="btn btn-primary" onclick="navTo('tournaments')">Go to Tournaments</span></p>
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: TOURNAMENTS (Events Hub) ========== -->
+      <div class="screen active" id="screen-tournaments">
+
+        <!-- Player Banner -->
+        <div class="player-banner">
+          <div class="player-icon">F</div>
+          <div>
+            <div class="player-name"><span class="status-dot"></span> FARDS_771608</div>
+            <div class="player-meta">
+              <span>ELO 1200</span>
+              <span>W 0 – L 0 – D 0</span>
+              <span>⬆ 1.77m</span>
+              <span>ROOMSCALE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="upcoming" onclick="switchTab('events', 'upcoming')">Upcoming</button>
+          <button class="tab-btn" data-tab="myevents" onclick="switchTab('events', 'myevents')">My Events</button>
+          <button class="tab-btn" data-tab="leaderboard" onclick="switchTab('events', 'leaderboard')">Leaderboards</button>
+          <button class="tab-btn" data-tab="howit" onclick="switchTab('events', 'howit')">How It Works</button>
+        </div>
+
+        <!-- Tab Content: Upcoming Events -->
+        <div class="tab-content" id="tab-upcoming">
+          <div class="event-list" id="eventList">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- Tab Content: My Events -->
+        <div class="tab-content hidden" id="tab-myevents">
+          <div class="event-list" id="myEventList">
+            <!-- filled by JS -->
+          </div>
+          <p class="text-muted mt-sm" id="noMyEvents" style="display:none;">You haven't registered for any events yet.</p>
+        </div>
+
+        <!-- Tab Content: Leaderboard -->
+        <div class="tab-content hidden" id="tab-leaderboard">
+          <div class="panel" id="leaderboardPanel">
+            <div class="flex-between">
+              <div class="panel-title">Regional Ranking</div>
+              <select id="regionSelect" onchange="renderLeaderboard()" style="font-size:.72rem;padding:4px 8px;border-radius:4px;border:1px solid var(--border-panel);">
+                <option value="NA">NA</option>
+                <option value="EU">EU</option>
+                <option value="Asia">Asia</option>
+              </select>
+            </div>
+            <div id="leaderboardList" class="mt-sm"></div>
+          </div>
+        </div>
+
+        <!-- Tab Content: How It Works -->
+        <div class="tab-content hidden" id="tab-howit">
+          <div class="panel how-section">
+            <h3>Swiss Mini Cup</h3>
+            <p>8 players, 3 rounds, 3 fights guaranteed — no elimination.</p>
+            <ul>
+              <li>Every player fights all 3 rounds regardless of results.</li>
+              <li>Pairings each round match players with similar records (no rematches).</li>
+            </ul>
+
+            <h3>Seeding</h3>
+            <p>Round 1 is seeded by Ranked ELO: Seed 1 vs 8, 2 vs 7, 3 vs 6, 4 vs 5.</p>
+
+            <h3>Scoring</h3>
+            <ul>
+              <li><strong>Placement Points:</strong> 1st = 100, 2nd = 75, 3rd = 55, 4th = 40, 5th–8th = 25</li>
+              <li><strong>Undefeated Bonus:</strong> +10 for going 3-0</li>
+              <li><strong>TKO Bonus:</strong> +10 per TKO win</li>
+            </ul>
+
+            <h3>Timeline</h3>
+            <ul>
+              <li>Registration opens ~30 min before start.</li>
+              <li>Confirm window: 5 min before start — you must confirm or be dropped.</li>
+              <li>Estimated duration: ~20–30 min for 3 rounds.</li>
+            </ul>
+
+            <h3>Championship License</h3>
+            <ul>
+              <li>Top 50 players per region qualify at season end.</li>
+              <li>Qualifiers receive an official license to compete in the Thrill of the Fight 2 Championship.</li>
+              <li>License status is displayed on your profile and leaderboard.</li>
+              <li>The Championship is a separate curated competitive circuit (not ranked matchmaking).</li>
+            </ul>
+            <p class="how-season-callout">Season ends in: 42 days</p>
+          </div>
+        </div>
+
+        <!-- Reference screenshots (collapsible) -->
+        <details class="ref-panel">
+          <summary>Reference Screenshots (compare styling)</summary>
+          <div class="ref-imgs">
+            <img src="assets/c__Users_fards_AppData_Roaming_Cursor_User_workspaceStorage_18b52647e6c70ae20a4a7a946bd42886_images_image-50c8559a-1cf8-4a71-9862-7d7a923ae957.png" alt="Main Menu" onerror="this.style.display='none'">
+            <img src="assets/c__Users_fards_AppData_Roaming_Cursor_User_workspaceStorage_18b52647e6c70ae20a4a7a946bd42886_images_image-11508493-7627-4654-97a7-ff8d739cde31.png" alt="Multiplayer Quick Match" onerror="this.style.display='none'">
+            <img src="assets/c__Users_fards_AppData_Roaming_Cursor_User_workspaceStorage_18b52647e6c70ae20a4a7a946bd42886_images_image-f2725b69-e738-4235-9343-1048ff346668.png" alt="Multiplayer Find Match" onerror="this.style.display='none'">
+          </div>
+        </details>
+      </div>
+
+      <!-- ========== SCREEN: TOURNAMENT LOBBY ========== -->
+      <div class="screen" id="screen-lobby">
+        <span class="return-btn" onclick="navTo('tournaments')">◀ RETURN</span>
+
+        <div class="flex-between">
+          <div>
+            <div style="font-weight:900;font-size:1rem;" id="lobbyTitle">Swiss Mini Cup — NA #1</div>
+            <div class="text-muted" id="lobbyMeta">Swiss • 3 fights guaranteed • 8 players</div>
+          </div>
+          <div id="lobbyActions"></div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="panel text-center" id="lobbyCountdownPanel">
+          <div class="text-muted">STARTS IN</div>
+          <div class="countdown" id="lobbyCountdown">12:34</div>
+        </div>
+
+        <!-- Confirm Window alert -->
+        <div class="panel hidden" id="confirmPanel" style="border-color:var(--accent-red);text-align:center;">
+          <div style="font-weight:800;color:var(--accent-red);text-transform:uppercase;margin-bottom:6px;">⚠ Confirm Window Open</div>
+          <p style="font-size:.78rem;color:var(--text-mid);margin-bottom:10px;">You must confirm your attendance within 5 minutes or be dropped.</p>
+          <span class="btn btn-primary" onclick="confirmAttendance()">Confirm</span>
+        </div>
+
+        <!-- Registered Fighters -->
+        <div class="panel">
+          <div class="panel-title">Registered Fighters (<span id="lobbyCount">0</span>/8)</div>
+          <table class="fighter-table">
+            <thead>
+              <tr>
+                <th>Seed</th><th>Name</th><th>ELO</th><th>Region</th><th>Stance</th><th>Move</th><th>Ht</th><th>Reach</th>
+              </tr>
+            </thead>
+            <tbody id="lobbyFighters"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: ROUND ========== -->
+      <div class="screen" id="screen-round">
+        <span class="return-btn" onclick="navTo('lobby')">◀ RETURN TO LOBBY</span>
+
+        <div class="flex-between">
+          <div style="font-weight:900;font-size:1rem;" id="roundTitle">Round 1 of 3</div>
+          <div class="tab-bar" id="roundTabs">
+            <!-- round tabs inserted by JS -->
+          </div>
+        </div>
+
+        <div class="pairings-grid" id="pairingsGrid">
+          <!-- pairing cards inserted by JS -->
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: RESULTS ========== -->
+      <div class="screen" id="screen-results">
+        <span class="return-btn" onclick="navTo('tournaments')">◀ RETURN</span>
+
+        <div style="font-weight:900;font-size:1rem;">Final Standings</div>
+
+        <div class="panel">
+          <table class="standings-table">
+            <thead>
+              <tr><th>#</th><th>Name</th><th>Record</th><th>TKOs</th><th>Base</th><th>Bonus</th><th>Total</th></tr>
+            </thead>
+            <tbody id="standingsBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Points Breakdown for selected player -->
+        <div class="panel" id="breakdownPanel">
+          <div class="panel-title">Points Breakdown — <span id="breakdownName">Player</span></div>
+          <div class="points-breakdown" id="breakdownGrid"></div>
+        </div>
+      </div>
+
+      <!-- ========== SCREEN: LEADERBOARD (full view) ========== -->
+      <div class="screen" id="screen-leaderboard-full">
+        <span class="return-btn" onclick="navTo('tournaments')">◀ RETURN</span>
+        <div style="font-weight:900;font-size:1rem;">Regional Leaderboard</div>
+        <div class="panel" id="fullLeaderboardPanel">
+          <div id="fullLeaderboardList"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+
+  <!-- Drawer overlay + drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    <div class="drawer-name" id="drawerName">Player Name</div>
+    <div id="drawerDetails"></div>
+  </div>
+</div><!-- /tablet -->
+
+<!-- ================ DEV CONTROLS ================ -->
+<div class="dev-panel" id="devPanel">
+  <button class="dev-toggle" onclick="toggleDev()">DEV CONTROLS</button>
+  <div class="dev-inner">
+
+    <div class="dev-group">
+      <label>Tournament State</label>
+      <select id="devTournState" onchange="devSetTournState(this.value)">
+        <option value="scheduled">Scheduled</option>
+        <option value="reg_open" selected>Registration Open</option>
+        <option value="reg_closed">Registration Closed</option>
+        <option value="confirm">Confirm Window</option>
+        <option value="round1">Round 1</option>
+        <option value="round2">Round 2</option>
+        <option value="round3">Round 3</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+
+    <div class="dev-group">
+      <label>User State</label>
+      <select id="devUserState" onchange="devSetUserState(this.value)">
+        <option value="not_registered">Not Registered</option>
+        <option value="registered" selected>Registered</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="dropped">Dropped</option>
+      </select>
+    </div>
+
+    <div class="dev-group">
+      <label>Round 1 Result</label>
+      <select id="devR1">
+        <option value="win">Win</option>
+        <option value="tko_win">TKO Win</option>
+        <option value="loss">Loss</option>
+        <option value="tko_loss">TKO Loss</option>
+        <option value="pending" selected>Pending</option>
+      </select>
+    </div>
+    <div class="dev-group">
+      <label>Round 2 Result</label>
+      <select id="devR2">
+        <option value="win">Win</option>
+        <option value="tko_win">TKO Win</option>
+        <option value="loss">Loss</option>
+        <option value="tko_loss">TKO Loss</option>
+        <option value="pending" selected>Pending</option>
+      </select>
+    </div>
+    <div class="dev-group">
+      <label>Round 3 Result</label>
+      <select id="devR3">
+        <option value="win">Win</option>
+        <option value="tko_win">TKO Win</option>
+        <option value="loss">Loss</option>
+        <option value="tko_loss">TKO Loss</option>
+        <option value="pending" selected>Pending</option>
+      </select>
+    </div>
+
+    <div class="dev-group">
+      <label>Actions</label>
+      <button onclick="devApplyAndRefresh()">Apply & Refresh</button>
+    </div>
+
+    <div class="dev-group">
+      <label>Current</label>
+      <div class="dev-state-display" id="devStateDisplay">reg_open / registered</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
