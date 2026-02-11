@@ -31,12 +31,19 @@
   --font-main:       'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
-html { font-size: 15px; }
+html {
+  font-size: 15px;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
 
 body {
   font-family: var(--font-main);
   color: var(--text-dark);
+  width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-parchment);
   background-image:
     radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.12) 100%);
@@ -45,16 +52,20 @@ body {
   justify-content: center;
   padding: 18px;
   margin: 0;
+  overflow-x: hidden;
 }
 
 /* ---- Tablet wrapper: locked aspect ratio, scale to fit viewport ---- */
 .tablet-wrap {
   --tablet-w: 920;
   --tablet-h: 540;
+  --tablet-ratio: 920 / 540;
   flex-shrink: 0;
-  width: min(920px, 92vw, (100vh - 36px) * 920 / 540);
+  /* Constrain by width and by height so aspect ratio is never stretched on any host */
+  width: min(920px, 92vw, 92vmin, calc((100vh - 36px) * 920 / 540), calc((100dvh - 36px) * 920 / 540));
+  max-width: 100%;
   aspect-ratio: 920 / 540;
-  max-height: calc(100vh - 36px);
+  max-height: min(calc(100vh - 36px), calc(100dvh - 36px));
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -62,7 +73,8 @@ body {
 }
 @supports not (aspect-ratio: 1) {
   .tablet-wrap {
-    width: min(920px, 92vw);
+    width: min(920px, 92vw, 92vmin);
+    max-width: 100%;
     height: 0;
     padding-bottom: 58.7%;
     position: relative;
