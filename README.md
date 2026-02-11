@@ -1,6 +1,6 @@
 # Thrill of the Fight 2 — Swiss Tournament Prototype
 
-A clickable HTML/CSS/JS UI mock for an automated **Swiss Mini Cup** tournament system, designed to match the in-game tablet UI style of *Thrill of the Fight 2*.
+A clickable HTML/CSS/JS UI mock for an automated **Fight Night** tournament system, designed to match the in-game tablet UI style of *Thrill of the Fight 2*.
 
 ## How to Run
 
@@ -41,7 +41,7 @@ A persistent panel pinned to the bottom of the screen (click **DEV CONTROLS** to
 
 ## Tournament Rules (implemented in prototype)
 
-- **Format:** Swiss Mini Cup, 8 players, 3 rounds, 3 fights guaranteed, no elimination.
+- **Format:** Fight Night, 8 players, 3 rounds, 3 fights guaranteed, no elimination.
 - **Seeding:** Round 1 uses pure Ranked ELO (1v8, 2v7, 3v6, 4v5).
 - **Pairing:** Rounds 2–3 pair players with similar records, avoiding rematches.
 - **Scoring:** Placement points (1st=100, 2nd=75, 3rd=55, 4th=40, 5th–8th=25) + Undefeated bonus (+10 for 3-0) + TKO bonus (+10 per TKO win).

@@ -3,17 +3,17 @@
    app.js — Navigation, fake data, Swiss engine, Dev Controls
    ============================================================ */
 
-// ── Fake Player Data ──────────────────────────────────────────
+// ── Fake Player Data (avatar = initial letter, thumbsUp from opponents, cosmetics) ──
 const SELF_ID = 0;
 const PLAYERS = [
-  { id:0, name:'FARDS_771608',   region:'NA', elo:1200, stance:'Orthodox',  move:'Roomscale', height:'1.77m', reach:'1.80m' },
-  { id:1, name:'Tyborg',         region:'NA', elo:1580, stance:'Southpaw',  move:'Roomscale', height:'1.85m', reach:'1.88m' },
-  { id:2, name:'Tony Jeffries',  region:'NA', elo:1490, stance:'Orthodox',  move:'Teleport',  height:'1.72m', reach:'1.74m' },
-  { id:3, name:'Carbonsheild',   region:'NA', elo:1440, stance:'Orthodox',  move:'Roomscale', height:'1.80m', reach:'1.82m' },
-  { id:4, name:'Coach Dave',     region:'NA', elo:1380, stance:'Southpaw',  move:'Roomscale', height:'1.75m', reach:'1.77m' },
-  { id:5, name:'Dimitri',        region:'NA', elo:1320, stance:'Orthodox',  move:'Roomscale', height:'1.90m', reach:'1.93m' },
-  { id:6, name:'Fishmongerblues',region:'NA', elo:1260, stance:'Orthodox',  move:'Teleport',  height:'1.78m', reach:'1.81m' },
-  { id:7, name:'Tren',           region:'NA', elo:1150, stance:'Southpaw',  move:'Roomscale', height:'1.70m', reach:'1.72m' },
+  { id:0, name:'FARDS_771608',   region:'NA', elo:1200, stance:'Orthodox',  move:'Roomscale', height:'1.77m', reach:'1.80m', avatar:'F', thumbsUp: 12, cosmetics: [{ id:'c1', name:'Champion Glow', type:'paid' }, { id:'c2', name:'Default Badge', type:'free' }] },
+  { id:1, name:'Tyborg',         region:'NA', elo:1580, stance:'Southpaw',  move:'Roomscale', height:'1.85m', reach:'1.88m', avatar:'T', thumbsUp: 89, cosmetics: [{ id:'c3', name:'Gold Trim', type:'paid' }, { id:'c2', name:'Default Badge', type:'free' }] },
+  { id:2, name:'Tony Jeffries',  region:'NA', elo:1490, stance:'Orthodox',  move:'Teleport',  height:'1.72m', reach:'1.74m', avatar:'T', thumbsUp: 64, cosmetics: [{ id:'c4', name:'Pro Stripe', type:'free' }] },
+  { id:3, name:'Carbonsheild',   region:'NA', elo:1440, stance:'Orthodox',  move:'Roomscale', height:'1.80m', reach:'1.82m', avatar:'C', thumbsUp: 52, cosmetics: [{ id:'c5', name:'Carbon Frame', type:'paid' }, { id:'c2', name:'Default Badge', type:'free' }] },
+  { id:4, name:'Coach Dave',     region:'NA', elo:1380, stance:'Southpaw',  move:'Roomscale', height:'1.75m', reach:'1.77m', avatar:'D', thumbsUp: 41, cosmetics: [{ id:'c2', name:'Default Badge', type:'free' }] },
+  { id:5, name:'Dimitri',        region:'NA', elo:1320, stance:'Orthodox',  move:'Roomscale', height:'1.90m', reach:'1.93m', avatar:'D', thumbsUp: 28, cosmetics: [{ id:'c6', name:'Dragon Icon', type:'paid' }] },
+  { id:6, name:'Fishmongerblues',region:'NA', elo:1260, stance:'Orthodox',  move:'Teleport',  height:'1.78m', reach:'1.81m', avatar:'F', thumbsUp: 19, cosmetics: [{ id:'c7', name:'Wave Border', type:'free' }] },
+  { id:7, name:'Tren',           region:'NA', elo:1150, stance:'Southpaw',  move:'Roomscale', height:'1.70m', reach:'1.72m', avatar:'T', thumbsUp: 8,  cosmetics: [{ id:'c2', name:'Default Badge', type:'free' }] },
 ];
 
 // sort by ELO descending → seed order
@@ -31,10 +31,10 @@ function futureTime(minFromNow) {
 }
 
 const EVENTS = [
-  { id:'e1', title:'Swiss Mini Cup — NA #1', region:'NA', startTime: futureTime(25), capacity:8, registered:8, est:'~25 min', status:'reg_open' },
-  { id:'e2', title:'Swiss Mini Cup — NA #2', region:'NA', startTime: futureTime(90), capacity:8, registered:3, est:'~25 min', status:'scheduled' },
-  { id:'e3', title:'Swiss Mini Cup — EU #1', region:'EU', startTime: futureTime(55), capacity:8, registered:6, est:'~25 min', status:'reg_open' },
-  { id:'e4', title:'Swiss Mini Cup — Asia #1', region:'Asia', startTime: futureTime(120), capacity:8, registered:1, est:'~25 min', status:'scheduled' },
+  { id:'e1', title:'Fight Night — NA #1', region:'NA', startTime: futureTime(25), capacity:8, registered:8, est:'~25 min', status:'reg_open' },
+  { id:'e2', title:'Fight Night — NA #2', region:'NA', startTime: futureTime(90), capacity:8, registered:3, est:'~25 min', status:'scheduled' },
+  { id:'e3', title:'Fight Night — EU #1', region:'EU', startTime: futureTime(55), capacity:8, registered:6, est:'~25 min', status:'reg_open' },
+  { id:'e4', title:'Fight Night — Asia #1', region:'Asia', startTime: futureTime(120), capacity:8, registered:1, est:'~25 min', status:'scheduled' },
 ];
 
 // ── Past Tournaments (history: completed events with full results) ──
@@ -46,7 +46,7 @@ function pastDate(daysAgo) {
 const PAST_EVENTS = [
   {
     id: 'past1',
-    title: 'Swiss Mini Cup — NA #0',
+    title: 'Fight Night — NA #0',
     region: 'NA',
     completedAt: pastDate(7),
     standings: [
@@ -82,7 +82,7 @@ const PAST_EVENTS = [
   },
   {
     id: 'past2',
-    title: 'Swiss Mini Cup — EU #0',
+    title: 'Fight Night — EU #0',
     region: 'EU',
     completedAt: pastDate(14),
     standings: [
@@ -118,7 +118,7 @@ const PAST_EVENTS = [
   },
   {
     id: 'past3',
-    title: 'Swiss Mini Cup — NA (Weekend)',
+    title: 'Fight Night — NA (Weekend)',
     region: 'NA',
     completedAt: pastDate(3),
     standings: [
@@ -154,7 +154,12 @@ const PAST_EVENTS = [
   },
 ];
 
-// ── Leaderboard Data ──────────────────────────────────────────
+// Profile defaults for leaderboard-only names (merged in getAllFighters)
+const DEFAULT_AVATAR = (name) => (name && name[0]) ? name[0].toUpperCase() : '?';
+const DEFAULT_THUMBSUP = (name) => Math.abs((name || '').split('').reduce((a,c) => a + c.charCodeAt(0), 0) % 47);
+const DEFAULT_COSMETICS = (name) => [{ id:'c2', name:'Default Badge', type:'free' }];
+
+// ── Leaderboard Data (profile fields merged from PLAYERS or defaults) ──────────────────────────────────────────
 const LEADERBOARD = {
   'NA': [
     { name:'Tyborg',            elo:1580, cups:5, pts:420, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.85m', reach:'1.88m' },
@@ -231,7 +236,7 @@ function navToTournamentsTab(tab) {
 function switchTab(group, tab) {
   if (group === 'events') {
     currentEventsTab = tab;
-    ['upcoming','myevent','history','leaderboard','howit'].forEach(t => {
+    ['upcoming','myevent','history','fightersearch','leaderboard','howit'].forEach(t => {
       const el = document.getElementById('tab-' + t);
       if (el) el.classList.toggle('hidden', t !== tab);
     });
@@ -241,6 +246,7 @@ function switchTab(group, tab) {
     if (tab === 'leaderboard') { renderLeaderboard(); showLbTipIfFirst(); }
     if (tab === 'myevent') renderMyEvents();
     if (tab === 'history') renderHistory();
+    if (tab === 'fightersearch') renderFighterSearch();
   }
 }
 
@@ -258,6 +264,8 @@ function renderHistory() {
   el.innerHTML = PAST_EVENTS.map(ev => {
     const dateStr = formatPastDate(ev.completedAt);
     const winner = ev.standings[0];
+    const winnerName = winner ? winner.name : '—';
+    const winnerAttr = winner ? escapeAttr(winner.name) : '';
     return `
       <div class="event-card history-card" onclick="openPastEvent('${ev.id}')">
         <div class="ec-left">
@@ -265,7 +273,7 @@ function renderHistory() {
           <div class="ec-meta">
             <span>${dateStr}</span>
             <span>${ev.region}</span>
-            <span>Winner: ${winner ? winner.name : '—'}</span>
+            <span>Winner: ${winner ? `<span class="fighter-name-link" data-name="${winnerAttr}" onclick="event.stopPropagation(); openDrawerByName(this.getAttribute('data-name'))">${winnerName}</span>` : '—'}</span>
           </div>
         </div>
         <div class="ec-right">
@@ -297,9 +305,10 @@ function renderPastEventView() {
   if (standingsBody) {
     standingsBody.innerHTML = ev.standings.map(p => {
       const placeClass = p.place <= 3 ? `place-${p.place}` : 'place-other';
+      const nameAttr = escapeAttr(p.name);
       return `<tr>
         <td><span class="place-badge ${placeClass}">${p.place}</span></td>
-        <td>${p.name}</td>
+        <td><span class="fighter-name-link" data-name="${nameAttr}" onclick="openDrawerByName(this.getAttribute('data-name'))">${p.name}</span></td>
         <td>${p.wins}–${p.losses}</td>
         <td>${p.tkos}</td>
         <td>${p.base}</td>
@@ -313,9 +322,10 @@ function renderPastEventView() {
       const roundNum = ri + 1;
       const matches = round.map(m => {
         const res = m.tko ? `${m.winner} (TKO)` : m.winner;
+        const a1 = escapeAttr(m.p1), a2 = escapeAttr(m.p2), aW = escapeAttr(m.winner);
         return `<div class="bracket-match">
-          <span>${m.p1} <span class="vs">VS</span> ${m.p2}</span>
-          <span class="bm-status complete">${res}</span>
+          <span><span class="fighter-name-link" data-name="${a1}" onclick="openDrawerByName(this.getAttribute('data-name'))">${m.p1}</span> <span class="vs">VS</span> <span class="fighter-name-link" data-name="${a2}" onclick="openDrawerByName(this.getAttribute('data-name'))">${m.p2}</span></span>
+          <span class="bm-status complete">${m.tko ? `<span class="fighter-name-link" data-name="${aW}" onclick="openDrawerByName(this.getAttribute('data-name'))">${m.winner}</span> (TKO)` : `<span class="fighter-name-link" data-name="${aW}" onclick="openDrawerByName(this.getAttribute('data-name'))">${m.winner}</span>`}</span>
         </div>`;
       }).join('');
       return `
@@ -429,9 +439,10 @@ function renderLobby() {
   const tbody = document.getElementById('lobbyFighters');
   tbody.innerHTML = seeded.map(p => {
     const isSelf = p.id === SELF_ID;
+    const nameAttr = escapeAttr(p.name);
     return `<tr class="${isSelf ? 'self' : ''}">
       <td><span class="seed-badge">${p.seed}</span></td>
-      <td>${p.name}</td>
+      <td><span class="fighter-name-link" data-name="${nameAttr}" onclick="openDrawerByName(this.getAttribute('data-name'))">${p.name}</span></td>
       <td>${p.elo}</td>
       <td>${p.region}</td>
       <td>${p.stance}</td>
@@ -595,13 +606,14 @@ function renderRound() {
     const p1rec = recordStr(p1, rNum - 1);
     const p2rec = recordStr(p2, rNum - 1);
     const resultLine = getResultLine(m);
+    const n1 = escapeAttr(p1.name), n2 = escapeAttr(p2.name);
     return `
       <div class="pairing-card ${isMine ? 'your-match' : ''}">
         <div class="match-label">Match ${i+1} ${isMine ? '— YOUR MATCH' : ''}</div>
         <div class="vs-row">
-          <span>[${p1.seed}] ${p1.name}</span>
+          <span>[${p1.seed}] <span class="fighter-name-link" data-name="${n1}" onclick="openDrawerByName(this.getAttribute('data-name'))">${p1.name}</span></span>
           <span class="vs">VS</span>
-          <span>[${p2.seed}] ${p2.name}</span>
+          <span>[${p2.seed}] <span class="fighter-name-link" data-name="${n2}" onclick="openDrawerByName(this.getAttribute('data-name'))">${p2.name}</span></span>
         </div>
         <div class="record">${p1rec} | ${p2rec}</div>
         <div style="font-size:.72rem;margin-top:2px;font-weight:700;color:${resultLine.includes('TKO') ? 'var(--accent-red)' : 'var(--text-mid)'}">${resultLine}</div>
@@ -662,9 +674,10 @@ function renderResults() {
   tbody.innerHTML = standings.map(p => {
     const placeClass = p.place <= 3 ? `place-${p.place}` : 'place-other';
     const isSelf = p.id === SELF_ID;
+    const nameAttr = escapeAttr(p.name);
     return `<tr class="${isSelf ? 'highlight' : ''}" style="cursor:pointer" onclick="showBreakdown(${p.id})">
       <td><span class="place-badge ${placeClass}">${p.place}</span></td>
-      <td>${p.name}</td>
+      <td><span class="fighter-name-link" data-name="${nameAttr}" onclick="event.stopPropagation(); openDrawerByName(this.getAttribute('data-name'))">${p.name}</span></td>
       <td>${p.wins}–${p.losses}</td>
       <td>${p.tkos}</td>
       <td>${p.base}</td>
@@ -715,6 +728,75 @@ function dismissLbTip() {
   if (el) el.classList.add('hidden');
 }
 
+// ── All fighters (for search): merge PLAYERS + all regions LEADERBOARD, dedupe by name ──
+function getAllFighters() {
+  const byName = {};
+  PLAYERS.forEach(p => {
+    byName[p.name] = {
+      name: p.name,
+      region: p.region,
+      elo: p.elo,
+      stance: p.stance,
+      move: p.move,
+      height: p.height,
+      reach: p.reach,
+      cups: 0,
+      pts: 0,
+      avatar: p.avatar || DEFAULT_AVATAR(p.name),
+      thumbsUp: p.thumbsUp != null ? p.thumbsUp : DEFAULT_THUMBSUP(p.name),
+      cosmetics: p.cosmetics || DEFAULT_COSMETICS(p.name),
+    };
+  });
+  ['NA','EU','Asia'].forEach(region => {
+    (LEADERBOARD[region] || []).forEach(lb => {
+      if (!byName[lb.name]) {
+        byName[lb.name] = {
+          name: lb.name,
+          region: lb.region || region,
+          elo: lb.elo,
+          stance: lb.stance,
+          move: lb.move,
+          height: lb.height,
+          reach: lb.reach,
+          cups: lb.cups,
+          pts: lb.pts,
+          avatar: lb.avatar || DEFAULT_AVATAR(lb.name),
+          thumbsUp: lb.thumbsUp != null ? lb.thumbsUp : DEFAULT_THUMBSUP(lb.name),
+          cosmetics: lb.cosmetics || DEFAULT_COSMETICS(lb.name),
+        };
+      } else {
+        Object.assign(byName[lb.name], { cups: lb.cups, pts: lb.pts });
+      }
+    });
+  });
+  return Object.values(byName).sort((a, b) => (b.elo || 0) - (a.elo || 0));
+}
+
+// ── Fighter Search ─────────────────────────────────────────────
+function renderFighterSearch(query) {
+  const list = document.getElementById('fighterSearchResults');
+  if (!list) return;
+  const fighters = getAllFighters();
+  const q = (query || document.getElementById('fighterSearchInput').value || '').trim().toLowerCase();
+  const filtered = q ? fighters.filter(f => f.name.toLowerCase().includes(q) || (f.region && f.region.toLowerCase().includes(q))) : fighters;
+  list.innerHTML = filtered.length
+    ? filtered.map(f => {
+        const p = JSON.stringify(f).replace(/"/g, '&quot;');
+        return `
+          <div class="lb-row fighter-search-row" onclick="openDrawer(${p})">
+            <div class="fighter-search-avatar">${(f.avatar || DEFAULT_AVATAR(f.name))}</div>
+            <div class="lb-name">${f.name}</div>
+            <div class="lb-pts">${f.region || '—'} · ${f.elo || '—'} ELO</div>
+            <span class="lb-icon" aria-hidden="true">&#9654;</span>
+          </div>`;
+      }).join('')
+    : '<p class="text-muted">No fighters match your search.</p>';
+}
+
+function searchFighters(value) {
+  renderFighterSearch(value);
+}
+
 // ── Render: Leaderboard ───────────────────────────────────────
 function renderLeaderboard() {
   const region = document.getElementById('regionSelect').value;
@@ -730,18 +812,39 @@ function renderLeaderboard() {
   `).join('');
 }
 
-// ── Player Drawer ─────────────────────────────────────────────
+// ── Player Drawer (fighter profile: avatar, thumbs up, cosmetics, stats) ─────────────────────────────────────────────
 function openDrawer(p) {
+  const full = getAllFighters().find(f => f.name === p.name) || p;
+  const avatar = full.avatar != null ? full.avatar : DEFAULT_AVATAR(p.name);
+  const thumbsUp = full.thumbsUp != null ? full.thumbsUp : DEFAULT_THUMBSUP(p.name);
+  const cosmetics = full.cosmetics || DEFAULT_COSMETICS(p.name);
+  const profile = { ...full, ...p };
+  p = profile;
+
+  document.getElementById('drawerAvatar').textContent = avatar;
   document.getElementById('drawerName').textContent = p.name;
+  document.getElementById('drawerThumbsCount').textContent = thumbsUp;
+
+  const badgesEl = document.getElementById('drawerAvatarBadges');
+  badgesEl.innerHTML = cosmetics.length
+    ? cosmetics.map(c => `<span class="cosmetic-badge ${c.type}" title="${c.name}">${c.type === 'paid' ? '★' : '◆'}</span>`).join('')
+    : '';
+
+  const cosmeticsEl = document.getElementById('drawerCosmetics');
+  cosmeticsEl.innerHTML = cosmetics.length
+    ? `<div class="drawer-cosmetics-label">Profile cosmetics</div><div class="drawer-cosmetics-list">${cosmetics.map(c => `<span class="cosmetic-tag ${c.type}">${c.name}</span>`).join('')}</div>`
+    : '';
+  cosmeticsEl.classList.toggle('hidden', !cosmetics.length);
+
   document.getElementById('drawerDetails').innerHTML = `
-    <div class="drawer-row"><span class="dr-label">Region</span><span class="dr-val">${p.region}</span></div>
-    <div class="drawer-row"><span class="dr-label">Ranked ELO</span><span class="dr-val">${p.elo}</span></div>
-    <div class="drawer-row"><span class="dr-label">Stance</span><span class="dr-val">${p.stance}</span></div>
-    <div class="drawer-row"><span class="dr-label">Movement</span><span class="dr-val">${p.move}</span></div>
-    <div class="drawer-row"><span class="dr-label">Height</span><span class="dr-val">${p.height}</span></div>
-    <div class="drawer-row"><span class="dr-label">Reach</span><span class="dr-val">${p.reach}</span></div>
-    <div class="drawer-row"><span class="dr-label">Cups Played</span><span class="dr-val">${p.cups}</span></div>
-    <div class="drawer-row"><span class="dr-label">Leaderboard Pts</span><span class="dr-val">${p.pts}</span></div>
+    <div class="drawer-row"><span class="dr-label">Region</span><span class="dr-val">${p.region || '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Ranked ELO</span><span class="dr-val">${p.elo != null ? p.elo : '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Stance</span><span class="dr-val">${p.stance || '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Movement</span><span class="dr-val">${p.move || '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Height</span><span class="dr-val">${p.height || '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Reach</span><span class="dr-val">${p.reach || '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Cups Played</span><span class="dr-val">${p.cups != null ? p.cups : '—'}</span></div>
+    <div class="drawer-row"><span class="dr-label">Leaderboard Pts</span><span class="dr-val">${p.pts != null ? p.pts : '—'}</span></div>
   `;
   document.getElementById('drawerOverlay').classList.add('open');
   document.getElementById('drawer').classList.add('open');
@@ -750,6 +853,18 @@ function openDrawer(p) {
 function closeDrawer() {
   document.getElementById('drawerOverlay').classList.remove('open');
   document.getElementById('drawer').classList.remove('open');
+}
+
+// Open profile drawer by fighter name (use from any menu area where a name is shown)
+function openDrawerByName(name) {
+  if (!name) return;
+  const fighter = getAllFighters().find(f => f.name === name) || { name };
+  openDrawer(fighter);
+}
+
+// Escape for HTML attribute (e.g. data-name) so names with " or < don't break the DOM
+function escapeAttr(s) {
+  return (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
 // ── Utilities ─────────────────────────────────────────────────

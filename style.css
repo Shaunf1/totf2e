@@ -384,6 +384,20 @@ body {
 }
 .return-btn:hover { color: var(--text-dark); }
 
+/* Clickable fighter name (opens profile drawer) */
+.fighter-name-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.fighter-name-link:hover {
+  color: var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+  text-decoration: none;
+}
+
 /* ---- Event Cards ---- */
 .event-list { display: flex; flex-direction: column; gap: 10px; }
 
@@ -601,6 +615,37 @@ body {
 }
 .lb-row:hover .lb-icon { opacity: 1; }
 
+/* ---- Fighter Search tab ---- */
+.fighter-search-input {
+  width: 100%;
+  font-size: .9rem;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-panel);
+  border-radius: var(--round-radius);
+  margin-bottom: 8px;
+  font-family: var(--font-main);
+}
+.fighter-search-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+.fighter-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.fighter-search-row .fighter-search-avatar {
+  width: 32px; height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 800;
+}
+
 /* ---- Player Drawer (slide-in panel) ---- */
 .drawer-overlay {
   display: none;
@@ -630,8 +675,98 @@ body {
   background: none; border: none;
 }
 
+.drawer-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.drawer-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.drawer .drawer-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #6b6560 0%, #565250 100%);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 900;
+  border: 2px solid var(--border-panel);
+}
+.drawer-avatar-badges {
+  position: absolute;
+  bottom: -2px; right: -2px;
+  display: flex; gap: 2px;
+}
+.cosmetic-badge {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .6rem;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.cosmetic-badge.free {
+  background: var(--bg-panel-dark);
+  color: var(--text-dark);
+}
+.cosmetic-badge.paid {
+  background: var(--gold);
+  color: #1a1a1a;
+}
+
+.drawer-header-right {
+  flex: 1;
+  min-width: 0;
+}
 .drawer .drawer-name {
   font-size: 1.2rem; font-weight: 900;
+}
+.drawer-thumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-mid);
+}
+.drawer-thumbs-icon {
+  color: var(--accent-red);
+  font-size: 1rem;
+  line-height: 1;
+}
+.drawer-thumbs-count {
+  color: var(--text-dark);
+}
+
+.drawer-cosmetics-label {
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.drawer-cosmetics-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cosmetic-tag {
+  font-size: .7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.cosmetic-tag.free {
+  background: rgba(0,0,0,.06);
+  color: var(--text-mid);
+  border: 1px solid var(--border-panel);
+}
+.cosmetic-tag.paid {
+  background: rgba(212,164,55,.2);
+  color: #6b5210;
+  border: 1px solid var(--gold);
 }
 
 .drawer .drawer-row {
