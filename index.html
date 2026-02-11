@@ -8,7 +8,8 @@
 </head>
 <body>
 
-<!-- ===================== TABLET FRAME ===================== -->
+<!-- ===================== TABLET WRAPPER (locked aspect ratio) ===================== -->
+<div class="tablet-wrap">
 <div class="tablet" id="tablet">
 
   <!-- Header -->
@@ -31,7 +32,12 @@
       <a class="nav-item" data-nav="find" onclick="navTo('find')">Find Match</a>
       <a class="nav-item" data-nav="private" onclick="navTo('private')">Private Match</a>
       <div class="nav-divider"></div>
-      <a class="nav-item active" data-nav="tournaments" onclick="navTo('tournaments')">Tournaments</a>
+      <div class="sidebar-section-label">Tournaments</div>
+      <a class="nav-item nav-sub active" data-nav="tournaments" data-tournaments-tab="upcoming" onclick="navToTournamentsTab('upcoming')">Upcoming</a>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="myevent" onclick="navToTournamentsTab('myevent')">My Event</a>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="history" onclick="navToTournamentsTab('history')">History</a>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="leaderboard" onclick="navToTournamentsTab('leaderboard')">Leaderboards</a>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="howit" onclick="navToTournamentsTab('howit')">How It Works</a>
     </nav>
 
     <!-- Content Screens -->
@@ -90,14 +96,6 @@
           </div>
         </div>
 
-        <!-- Tab bar -->
-        <div class="tab-bar">
-          <button class="tab-btn active" data-tab="upcoming" onclick="switchTab('events', 'upcoming')">Upcoming</button>
-          <button class="tab-btn" data-tab="myevents" onclick="switchTab('events', 'myevents')">My Events</button>
-          <button class="tab-btn" data-tab="leaderboard" onclick="switchTab('events', 'leaderboard')">Leaderboards</button>
-          <button class="tab-btn" data-tab="howit" onclick="switchTab('events', 'howit')">How It Works</button>
-        </div>
-
         <!-- Tab Content: Upcoming Events -->
         <div class="tab-content" id="tab-upcoming">
           <div class="event-list" id="eventList">
@@ -105,12 +103,20 @@
           </div>
         </div>
 
-        <!-- Tab Content: My Events -->
-        <div class="tab-content hidden" id="tab-myevents">
+        <!-- Tab Content: My Event (event you're signed up for only) -->
+        <div class="tab-content hidden" id="tab-myevent">
           <div class="event-list" id="myEventList">
             <!-- filled by JS -->
           </div>
           <p class="text-muted mt-sm" id="noMyEvents" style="display:none;">You haven't registered for any events yet.</p>
+        </div>
+
+        <!-- Tab Content: History (past tournaments) -->
+        <div class="tab-content hidden" id="tab-history">
+          <p class="lb-instruction">Click a tournament to view final standings and bracket</p>
+          <div class="event-list" id="historyList">
+            <!-- filled by JS -->
+          </div>
         </div>
 
         <!-- Tab Content: Leaderboard -->
@@ -123,6 +129,11 @@
                 <option value="EU">EU</option>
                 <option value="Asia">Asia</option>
               </select>
+            </div>
+            <p class="lb-instruction">Click a name to view fighter card</p>
+            <div class="lb-tip-callout hidden" id="lbTipCallout">
+              <span>Tip: Select a fighter to view stats</span>
+              <button type="button" class="lb-tip-dismiss" onclick="dismissLbTip()">Dismiss</button>
             </div>
             <div id="leaderboardList" class="mt-sm"></div>
           </div>
@@ -263,6 +274,28 @@
         </div>
       </div>
 
+      <!-- ========== SCREEN: PAST TOURNAMENT (history detail + ladder) ========== -->
+      <div class="screen" id="screen-past-event">
+        <span class="return-btn" onclick="navTo('tournaments')">◀ RETURN</span>
+        <div class="past-event-header">
+          <div style="font-weight:900;font-size:1rem;" id="pastEventTitle">Past Tournament</div>
+          <div class="text-muted" id="pastEventDate">—</div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Final Standings</div>
+          <table class="standings-table">
+            <thead>
+              <tr><th>#</th><th>Name</th><th>Record</th><th>TKOs</th><th>Base</th><th>Bonus</th><th>Total</th></tr>
+            </thead>
+            <tbody id="pastEventStandingsBody"></tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Bracket — Round-by-round results</div>
+          <div id="pastEventBracket" class="past-event-bracket"></div>
+        </div>
+      </div>
+
     </div><!-- /content -->
   </div><!-- /main -->
 
@@ -274,6 +307,7 @@
     <div id="drawerDetails"></div>
   </div>
 </div><!-- /tablet -->
+</div><!-- /tablet-wrap -->
 
 <!-- ================ DEV CONTROLS ================ -->
 <div class="dev-panel" id="devPanel">

@@ -7,13 +7,13 @@
 const SELF_ID = 0;
 const PLAYERS = [
   { id:0, name:'FARDS_771608',   region:'NA', elo:1200, stance:'Orthodox',  move:'Roomscale', height:'1.77m', reach:'1.80m' },
-  { id:1, name:'IRONJAW_42',     region:'NA', elo:1580, stance:'Southpaw',  move:'Roomscale', height:'1.85m', reach:'1.88m' },
-  { id:2, name:'DUCKNWEAVE',     region:'NA', elo:1490, stance:'Orthodox',  move:'Teleport',  height:'1.72m', reach:'1.74m' },
-  { id:3, name:'SLAPMACHINE',    region:'NA', elo:1440, stance:'Orthodox',  move:'Roomscale', height:'1.80m', reach:'1.82m' },
-  { id:4, name:'COMBOKID_99',    region:'NA', elo:1380, stance:'Southpaw',  move:'Roomscale', height:'1.75m', reach:'1.77m' },
-  { id:5, name:'GLASSCANON',     region:'NA', elo:1320, stance:'Orthodox',  move:'Roomscale', height:'1.90m', reach:'1.93m' },
-  { id:6, name:'BODYSNATCHER',   region:'NA', elo:1260, stance:'Orthodox',  move:'Teleport',  height:'1.78m', reach:'1.81m' },
-  { id:7, name:'ROOKIE_TIGER',   region:'NA', elo:1150, stance:'Southpaw',  move:'Roomscale', height:'1.70m', reach:'1.72m' },
+  { id:1, name:'Tyborg',         region:'NA', elo:1580, stance:'Southpaw',  move:'Roomscale', height:'1.85m', reach:'1.88m' },
+  { id:2, name:'Tony Jeffries',  region:'NA', elo:1490, stance:'Orthodox',  move:'Teleport',  height:'1.72m', reach:'1.74m' },
+  { id:3, name:'Carbonsheild',   region:'NA', elo:1440, stance:'Orthodox',  move:'Roomscale', height:'1.80m', reach:'1.82m' },
+  { id:4, name:'Coach Dave',     region:'NA', elo:1380, stance:'Southpaw',  move:'Roomscale', height:'1.75m', reach:'1.77m' },
+  { id:5, name:'Dimitri',        region:'NA', elo:1320, stance:'Orthodox',  move:'Roomscale', height:'1.90m', reach:'1.93m' },
+  { id:6, name:'Fishmongerblues',region:'NA', elo:1260, stance:'Orthodox',  move:'Teleport',  height:'1.78m', reach:'1.81m' },
+  { id:7, name:'Tren',           region:'NA', elo:1150, stance:'Southpaw',  move:'Roomscale', height:'1.70m', reach:'1.72m' },
 ];
 
 // sort by ELO descending → seed order
@@ -37,28 +37,145 @@ const EVENTS = [
   { id:'e4', title:'Swiss Mini Cup — Asia #1', region:'Asia', startTime: futureTime(120), capacity:8, registered:1, est:'~25 min', status:'scheduled' },
 ];
 
+// ── Past Tournaments (history: completed events with full results) ──
+function pastDate(daysAgo) {
+  const d = new Date(); d.setDate(d.getDate() - daysAgo);
+  return d;
+}
+
+const PAST_EVENTS = [
+  {
+    id: 'past1',
+    title: 'Swiss Mini Cup — NA #0',
+    region: 'NA',
+    completedAt: pastDate(7),
+    standings: [
+      { place: 1, name: 'Tyborg',           wins: 3, losses: 0, tkos: 2, base: 100, bonus: 20, total: 120 },
+      { place: 2, name: 'Tony Jeffries',    wins: 2, losses: 1, tkos: 1, base: 75,  bonus: 10, total: 85 },
+      { place: 3, name: 'Carbonsheild',    wins: 2, losses: 1, tkos: 0, base: 55,  bonus: 0,  total: 55 },
+      { place: 4, name: 'Coach Dave',      wins: 2, losses: 1, tkos: 0, base: 40,  bonus: 0,  total: 40 },
+      { place: 5, name: 'Dimitri',         wins: 1, losses: 2, tkos: 1, base: 25,  bonus: 10, total: 35 },
+      { place: 6, name: 'Fishmongerblues', wins: 1, losses: 2, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 7, name: 'FARDS_771608',    wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 8, name: 'Tren',            wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+    ],
+    rounds: [
+      [
+        { p1: 'Tyborg', p2: 'Tren', winner: 'Tyborg', tko: true },
+        { p1: 'Tony Jeffries', p2: 'FARDS_771608', winner: 'Tony Jeffries', tko: false },
+        { p1: 'Carbonsheild', p2: 'Fishmongerblues', winner: 'Carbonsheild', tko: false },
+        { p1: 'Coach Dave', p2: 'Dimitri', winner: 'Coach Dave', tko: false },
+      ],
+      [
+        { p1: 'Tyborg', p2: 'Coach Dave', winner: 'Tyborg', tko: false },
+        { p1: 'Tony Jeffries', p2: 'Carbonsheild', winner: 'Tony Jeffries', tko: true },
+        { p1: 'Dimitri', p2: 'Tren', winner: 'Dimitri', tko: true },
+        { p1: 'Fishmongerblues', p2: 'FARDS_771608', winner: 'Fishmongerblues', tko: false },
+      ],
+      [
+        { p1: 'Tyborg', p2: 'Tony Jeffries', winner: 'Tyborg', tko: true },
+        { p1: 'Carbonsheild', p2: 'Coach Dave', winner: 'Carbonsheild', tko: false },
+        { p1: 'Dimitri', p2: 'Fishmongerblues', winner: 'Dimitri', tko: false },
+        { p1: 'Tren', p2: 'FARDS_771608', winner: 'Tren', tko: false },
+      ],
+    ],
+  },
+  {
+    id: 'past2',
+    title: 'Swiss Mini Cup — EU #0',
+    region: 'EU',
+    completedAt: pastDate(14),
+    standings: [
+      { place: 1, name: 'EUROBRAWLER',   wins: 3, losses: 0, tkos: 1, base: 100, bonus: 20, total: 120 },
+      { place: 2, name: 'Tony Jeffries', wins: 2, losses: 1, tkos: 0, base: 75,  bonus: 0,  total: 75 },
+      { place: 3, name: 'Jfill',         wins: 2, losses: 1, tkos: 2, base: 55,  bonus: 20, total: 75 },
+      { place: 4, name: 'Carbonsheild', wins: 1, losses: 2, tkos: 0, base: 40,  bonus: 0,  total: 40 },
+      { place: 5, name: 'Coach Dave',    wins: 1, losses: 2, tkos: 1, base: 25,  bonus: 10, total: 35 },
+      { place: 6, name: 'Tyborg',        wins: 1, losses: 2, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 7, name: 'Fishmongerblues', wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 8, name: 'Pesterjord',    wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+    ],
+    rounds: [
+      [
+        { p1: 'EUROBRAWLER', p2: 'Pesterjord', winner: 'EUROBRAWLER', tko: false },
+        { p1: 'Tony Jeffries', p2: 'Fishmongerblues', winner: 'Tony Jeffries', tko: false },
+        { p1: 'Jfill', p2: 'Tyborg', winner: 'Jfill', tko: true },
+        { p1: 'Carbonsheild', p2: 'Coach Dave', winner: 'Carbonsheild', tko: false },
+      ],
+      [
+        { p1: 'EUROBRAWLER', p2: 'Carbonsheild', winner: 'EUROBRAWLER', tko: false },
+        { p1: 'Tony Jeffries', p2: 'Jfill', winner: 'Jfill', tko: true },
+        { p1: 'Coach Dave', p2: 'Pesterjord', winner: 'Coach Dave', tko: true },
+        { p1: 'Tyborg', p2: 'Fishmongerblues', winner: 'Tyborg', tko: false },
+      ],
+      [
+        { p1: 'EUROBRAWLER', p2: 'Jfill', winner: 'EUROBRAWLER', tko: true },
+        { p1: 'Tony Jeffries', p2: 'Carbonsheild', winner: 'Tony Jeffries', tko: false },
+        { p1: 'Coach Dave', p2: 'Tyborg', winner: 'Tyborg', tko: false },
+        { p1: 'Fishmongerblues', p2: 'Pesterjord', winner: 'Pesterjord', tko: false },
+      ],
+    ],
+  },
+  {
+    id: 'past3',
+    title: 'Swiss Mini Cup — NA (Weekend)',
+    region: 'NA',
+    completedAt: pastDate(3),
+    standings: [
+      { place: 1, name: 'Carbonsheild',    wins: 3, losses: 0, tkos: 0, base: 100, bonus: 10, total: 110 },
+      { place: 2, name: 'FARDS_771608',   wins: 2, losses: 1, tkos: 1, base: 75,  bonus: 10, total: 85 },
+      { place: 3, name: 'Tyborg',         wins: 2, losses: 1, tkos: 1, base: 55,  bonus: 10, total: 65 },
+      { place: 4, name: 'Coach Dave',     wins: 2, losses: 1, tkos: 0, base: 40,  bonus: 0,  total: 40 },
+      { place: 5, name: 'Tony Jeffries', wins: 1, losses: 2, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 6, name: 'Dimitri',        wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 7, name: 'Fishmongerblues', wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+      { place: 8, name: 'Tren',           wins: 0, losses: 3, tkos: 0, base: 25,  bonus: 0,  total: 25 },
+    ],
+    rounds: [
+      [
+        { p1: 'Tyborg', p2: 'Tren', winner: 'Tyborg', tko: false },
+        { p1: 'Tony Jeffries', p2: 'FARDS_771608', winner: 'FARDS_771608', tko: true },
+        { p1: 'Carbonsheild', p2: 'Fishmongerblues', winner: 'Carbonsheild', tko: false },
+        { p1: 'Coach Dave', p2: 'Dimitri', winner: 'Coach Dave', tko: false },
+      ],
+      [
+        { p1: 'Tyborg', p2: 'FARDS_771608', winner: 'Tyborg', tko: true },
+        { p1: 'Carbonsheild', p2: 'Coach Dave', winner: 'Carbonsheild', tko: false },
+        { p1: 'Tony Jeffries', p2: 'Dimitri', winner: 'Tony Jeffries', tko: false },
+        { p1: 'Fishmongerblues', p2: 'Tren', winner: 'Tren', tko: false },
+      ],
+      [
+        { p1: 'Carbonsheild', p2: 'Tyborg', winner: 'Carbonsheild', tko: false },
+        { p1: 'FARDS_771608', p2: 'Coach Dave', winner: 'FARDS_771608', tko: false },
+        { p1: 'Tony Jeffries', p2: 'Tren', winner: 'Tony Jeffries', tko: false },
+        { p1: 'Dimitri', p2: 'Fishmongerblues', winner: 'Fishmongerblues', tko: false },
+      ],
+    ],
+  },
+];
+
 // ── Leaderboard Data ──────────────────────────────────────────
 const LEADERBOARD = {
   'NA': [
-    { name:'IRONJAW_42',     elo:1580, cups:5, pts:420, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.85m', reach:'1.88m' },
-    { name:'WESTCOAST_HOOK', elo:1520, cups:4, pts:390, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.82m', reach:'1.85m' },
-    { name:'DUCKNWEAVE',     elo:1490, cups:4, pts:385, region:'NA', stance:'Orthodox', move:'Teleport',  height:'1.72m', reach:'1.74m' },
-    { name:'SLAPMACHINE',    elo:1440, cups:3, pts:310, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.80m', reach:'1.82m' },
-    { name:'SUNSET_BRAWL',   elo:1410, cups:2, pts:250, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.76m', reach:'1.78m' },
-    { name:'COMBOKID_99',    elo:1380, cups:3, pts:275, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.75m', reach:'1.77m' },
-    { name:'GLASSCANON',     elo:1320, cups:2, pts:210, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.90m', reach:'1.93m' },
-    { name:'BODYSNATCHER',   elo:1260, cups:1, pts:160, region:'NA', stance:'Orthodox', move:'Teleport',  height:'1.78m', reach:'1.81m' },
-    { name:'FARDS_771608',   elo:1200, cups:0, pts:0,   region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.77m', reach:'1.80m' },
-    { name:'ROOKIE_TIGER',   elo:1150, cups:0, pts:50,  region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.70m', reach:'1.72m' },
+    { name:'Tyborg',            elo:1580, cups:5, pts:420, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.85m', reach:'1.88m' },
+    { name:'Tony Jeffries',     elo:1490, cups:4, pts:385, region:'NA', stance:'Orthodox', move:'Teleport',  height:'1.72m', reach:'1.74m' },
+    { name:'Carbonsheild',      elo:1440, cups:3, pts:310, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.80m', reach:'1.82m' },
+    { name:'Jfill',             elo:1420, cups:3, pts:280, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.82m', reach:'1.85m' },
+    { name:'Coach Dave',        elo:1380, cups:3, pts:275, region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.75m', reach:'1.77m' },
+    { name:'Dimitri',           elo:1320, cups:2, pts:210, region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.90m', reach:'1.93m' },
+    { name:'Fishmongerblues',   elo:1260, cups:1, pts:160, region:'NA', stance:'Orthodox', move:'Teleport',  height:'1.78m', reach:'1.81m' },
+    { name:'FARDS_771608',      elo:1200, cups:0, pts:0,   region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.77m', reach:'1.80m' },
+    { name:'Tren',              elo:1150, cups:0, pts:50,  region:'NA', stance:'Southpaw', move:'Roomscale', height:'1.70m', reach:'1.72m' },
+    { name:'Pesterjord',        elo:1120, cups:0, pts:25,  region:'NA', stance:'Orthodox', move:'Roomscale', height:'1.76m', reach:'1.79m' },
   ],
   'EU': [
     { name:'EUROBRAWLER',   elo:1600, cups:6, pts:480, region:'EU', stance:'Orthodox', move:'Roomscale', height:'1.88m', reach:'1.91m' },
-    { name:'QUEENSBERRY',   elo:1475, cups:3, pts:320, region:'EU', stance:'Orthodox', move:'Teleport',  height:'1.74m', reach:'1.76m' },
-    { name:'KNOCKOUT_KARL', elo:1350, cups:2, pts:215, region:'EU', stance:'Southpaw', move:'Roomscale', height:'1.81m', reach:'1.83m' },
+    { name:'Tony Jeffries', elo:1475, cups:3, pts:320, region:'EU', stance:'Orthodox', move:'Teleport',  height:'1.74m', reach:'1.76m' },
+    { name:'Carbonsheild',  elo:1350, cups:2, pts:215, region:'EU', stance:'Southpaw', move:'Roomscale', height:'1.81m', reach:'1.83m' },
   ],
   'Asia': [
     { name:'TOKYO_FURY',   elo:1540, cups:4, pts:400, region:'Asia', stance:'Southpaw', move:'Roomscale', height:'1.73m', reach:'1.75m' },
-    { name:'DRAGON_FIST',  elo:1430, cups:2, pts:260, region:'Asia', stance:'Orthodox', move:'Roomscale', height:'1.79m', reach:'1.82m' },
+    { name:'Dimitri',      elo:1430, cups:2, pts:260, region:'Asia', stance:'Orthodox', move:'Roomscale', height:'1.79m', reach:'1.82m' },
   ],
 };
 
@@ -78,38 +195,52 @@ let matchHistory = {};                  // pid_pid → true (track played pairs)
 
 // ── Navigation ────────────────────────────────────────────────
 let currentScreen = 'tournaments';
+let currentPastEvent = null;
+let currentEventsTab = 'upcoming';
 
 function navTo(screen) {
-  // update sidebar active
+  const isTournamentsArea = ['tournaments','lobby','round','results','past-event'].includes(screen);
   document.querySelectorAll('.sidebar .nav-item').forEach(n => {
-    n.classList.toggle('active', n.dataset.nav === screen || (screen === 'lobby' && n.dataset.nav === 'tournaments') || (screen === 'round' && n.dataset.nav === 'tournaments') || (screen === 'results' && n.dataset.nav === 'tournaments') || (screen === 'leaderboard-full' && n.dataset.nav === 'tournaments'));
+    const isSub = n.classList.contains('nav-sub');
+    const tabMatch = isSub && n.dataset.tournamentsTab === currentEventsTab;
+    n.classList.toggle('active', isSub && isTournamentsArea && tabMatch);
   });
-  // hide all screens
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('screen-' + screen);
   if (el) {
     el.classList.add('active');
     currentScreen = screen;
   }
-  // render specific screens
   if (screen === 'tournaments') renderEventsHub();
   if (screen === 'lobby') renderLobby();
   if (screen === 'round') renderRound();
   if (screen === 'results') renderResults();
+  if (screen === 'past-event') renderPastEventView();
 }
 
-// ── Tab Switching ─────────────────────────────────────────────
+function navToTournamentsTab(tab) {
+  currentEventsTab = tab;
+  navTo('tournaments');
+  switchTab('events', tab);
+  document.querySelectorAll('.sidebar .nav-sub').forEach(n => {
+    n.classList.toggle('active', n.dataset.tournamentsTab === tab);
+  });
+}
+
+// ── Tab Switching (content panels; sidebar drives selection) ───
 function switchTab(group, tab) {
   if (group === 'events') {
-    ['upcoming','myevents','leaderboard','howit'].forEach(t => {
+    currentEventsTab = tab;
+    ['upcoming','myevent','history','leaderboard','howit'].forEach(t => {
       const el = document.getElementById('tab-' + t);
       if (el) el.classList.toggle('hidden', t !== tab);
     });
-    document.querySelectorAll('#screen-tournaments .tab-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.tab === tab);
+    document.querySelectorAll('.sidebar .nav-sub').forEach(n => {
+      n.classList.toggle('active', n.dataset.tournamentsTab === tab);
     });
-    if (tab === 'leaderboard') renderLeaderboard();
-    if (tab === 'myevents') renderMyEvents();
+    if (tab === 'leaderboard') { renderLeaderboard(); showLbTipIfFirst(); }
+    if (tab === 'myevent') renderMyEvents();
+    if (tab === 'history') renderHistory();
   }
 }
 
@@ -117,6 +248,83 @@ function switchTab(group, tab) {
 function renderEventsHub() {
   renderEventList();
   renderMyEvents();
+  renderHistory();
+}
+
+// ── Tournament History ────────────────────────────────────────
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  if (!el) return;
+  el.innerHTML = PAST_EVENTS.map(ev => {
+    const dateStr = formatPastDate(ev.completedAt);
+    const winner = ev.standings[0];
+    return `
+      <div class="event-card history-card" onclick="openPastEvent('${ev.id}')">
+        <div class="ec-left">
+          <div class="ec-title">${ev.title}</div>
+          <div class="ec-meta">
+            <span>${dateStr}</span>
+            <span>${ev.region}</span>
+            <span>Winner: ${winner ? winner.name : '—'}</span>
+          </div>
+        </div>
+        <div class="ec-right">
+          <span class="ec-status completed">Completed</span>
+          <div class="ec-cap">View bracket</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function formatPastDate(d) {
+  return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function openPastEvent(id) {
+  currentPastEvent = PAST_EVENTS.find(e => e.id === id) || PAST_EVENTS[0];
+  navTo('past-event');
+}
+
+function renderPastEventView() {
+  if (!currentPastEvent) { navTo('tournaments'); return; }
+  const ev = currentPastEvent;
+  const titleEl = document.getElementById('pastEventTitle');
+  const dateEl = document.getElementById('pastEventDate');
+  const standingsBody = document.getElementById('pastEventStandingsBody');
+  const bracketEl = document.getElementById('pastEventBracket');
+  if (titleEl) titleEl.textContent = ev.title;
+  if (dateEl) dateEl.textContent = formatPastDate(ev.completedAt) + ' · ' + ev.region;
+  if (standingsBody) {
+    standingsBody.innerHTML = ev.standings.map(p => {
+      const placeClass = p.place <= 3 ? `place-${p.place}` : 'place-other';
+      return `<tr>
+        <td><span class="place-badge ${placeClass}">${p.place}</span></td>
+        <td>${p.name}</td>
+        <td>${p.wins}–${p.losses}</td>
+        <td>${p.tkos}</td>
+        <td>${p.base}</td>
+        <td>+${p.bonus}</td>
+        <td><strong>${p.total}</strong></td>
+      </tr>`;
+    }).join('');
+  }
+  if (bracketEl) {
+    bracketEl.innerHTML = ev.rounds.map((round, ri) => {
+      const roundNum = ri + 1;
+      const matches = round.map(m => {
+        const res = m.tko ? `${m.winner} (TKO)` : m.winner;
+        return `<div class="bracket-match">
+          <span>${m.p1} <span class="vs">VS</span> ${m.p2}</span>
+          <span class="bm-status complete">${res}</span>
+        </div>`;
+      }).join('');
+      return `
+        <div class="past-round-block">
+          <div class="panel-title">Round ${roundNum}</div>
+          <div class="bracket-matches">${matches}</div>
+        </div>`;
+    }).join('');
+  }
 }
 
 function renderEventList() {
@@ -487,6 +695,26 @@ function showBreakdownData(p) {
   `;
 }
 
+// ── Leaderboard tip (one-time, localStorage) ───────────────────
+const LB_TIP_KEY = 'totf2_lb_tip_dismissed';
+
+function showLbTipIfFirst() {
+  try {
+    if (localStorage.getItem(LB_TIP_KEY) !== '1') {
+      const el = document.getElementById('lbTipCallout');
+      if (el) el.classList.remove('hidden');
+    }
+  } catch (e) {}
+}
+
+function dismissLbTip() {
+  try {
+    localStorage.setItem(LB_TIP_KEY, '1');
+  } catch (e) {}
+  const el = document.getElementById('lbTipCallout');
+  if (el) el.classList.add('hidden');
+}
+
 // ── Render: Leaderboard ───────────────────────────────────────
 function renderLeaderboard() {
   const region = document.getElementById('regionSelect').value;
@@ -497,6 +725,7 @@ function renderLeaderboard() {
       <div class="lb-rank">${i + 1}</div>
       <div class="lb-name">${p.name}</div>
       <div class="lb-pts">${p.pts} pts</div>
+      <span class="lb-icon" aria-hidden="true">&#9654;</span>
     </div>
   `).join('');
 }

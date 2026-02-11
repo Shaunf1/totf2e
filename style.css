@@ -37,7 +37,6 @@ body {
   font-family: var(--font-main);
   color: var(--text-dark);
   min-height: 100vh;
-  /* parchment feel */
   background: var(--bg-parchment);
   background-image:
     radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.12) 100%);
@@ -45,13 +44,40 @@ body {
   align-items: center;
   justify-content: center;
   padding: 18px;
+  margin: 0;
 }
 
-/* ---- Tablet Frame ---- */
+/* ---- Tablet wrapper: locked aspect ratio, scale to fit viewport ---- */
+.tablet-wrap {
+  --tablet-w: 920;
+  --tablet-h: 540;
+  flex-shrink: 0;
+  width: min(920px, 92vw, (100vh - 36px) * 920 / 540);
+  aspect-ratio: 920 / 540;
+  max-height: calc(100vh - 36px);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin: auto;
+}
+@supports not (aspect-ratio: 1) {
+  .tablet-wrap {
+    width: min(920px, 92vw);
+    height: 0;
+    padding-bottom: 58.7%;
+    position: relative;
+  }
+  .tablet-wrap .tablet {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+/* ---- Tablet Frame (fills wrapper, never stretches) ---- */
 .tablet {
   width: 100%;
-  max-width: 920px;
-  min-height: 540px;
+  height: 100%;
+  min-height: 0;
   background: var(--bg-parchment);
   border: 3px solid #b3aaa0;
   border-radius: 14px;
@@ -153,6 +179,23 @@ body {
   height: 1px;
   background: var(--border-panel);
   margin: 6px 12px;
+}
+
+.sidebar-section-label {
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--accent-red);
+  padding: 10px 12px 4px;
+  margin-top: 4px;
+}
+
+.sidebar .nav-sub {
+  font-size: .78rem;
+  padding-left: 24px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /* ---- Content Area ---- */
@@ -493,6 +536,37 @@ body {
 }
 
 /* ---- Leaderboard ---- */
+.lb-instruction {
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--accent-blue);
+  margin-bottom: 8px;
+  padding: 4px 0;
+}
+.lb-tip-callout {
+  font-size: .72rem;
+  color: var(--text-mid);
+  background: rgba(44,58,110,.08);
+  border: 1px solid var(--accent-blue);
+  border-radius: var(--round-radius);
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.lb-tip-callout .lb-tip-dismiss {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.lb-tip-callout .lb-tip-dismiss:hover { color: var(--accent-red); }
+
 .lb-row {
   display: flex; align-items: center; gap: 12px;
   padding: 8px 10px;
@@ -501,12 +575,19 @@ body {
   transition: background .15s;
   border-radius: var(--round-radius);
 }
-.lb-row:hover { background: rgba(0,0,0,.05); }
+.lb-row:hover { background: rgba(44,58,110,.06); }
+.lb-row:hover .lb-name { text-decoration: underline; text-underline-offset: 2px; }
 .lb-row .lb-rank {
   font-weight: 900; font-size: .85rem; width: 28px; text-align: center;
 }
 .lb-row .lb-name { font-weight: 700; flex: 1; }
 .lb-row .lb-pts { font-weight: 800; color: var(--accent-blue); }
+.lb-row .lb-icon {
+  font-size: .7rem;
+  color: var(--accent-blue);
+  opacity: .8;
+}
+.lb-row:hover .lb-icon { opacity: 1; }
 
 /* ---- Player Drawer (slide-in panel) ---- */
 .drawer-overlay {
@@ -634,6 +715,83 @@ body {
 }
 .ref-panel .ref-imgs img {
   max-width: 260px; border-radius: 6px; border: 1px solid var(--border-panel);
+}
+
+/* ---- My Event (Swiss bracket) ---- */
+.my-event-status {
+  font-size: .82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  margin-bottom: 6px;
+}
+.my-event-record {
+  font-size: .78rem;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+}
+.my-event-next {
+  font-size: .78rem;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: rgba(44,58,110,.06);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--round-radius);
+}
+.bracket-panel .panel-title { margin-bottom: 8px; }
+.bracket-match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  font-size: .74rem;
+}
+.bracket-match.your-match { background: rgba(44,58,110,.08); font-weight: 700; }
+.bracket-match .bm-status {
+  font-size: .65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.bm-status.pending { background: rgba(0,0,0,.08); color: var(--text-mid); }
+.bm-status.complete { background: rgba(46,125,50,.2); color: #2e7d32; }
+.bracket-match .vs { color: var(--accent-red); font-weight: 900; font-size: .7rem; }
+.bracket-note {
+  font-size: .68rem;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* ---- Past Tournament (history detail) ---- */
+.past-event-header {
+  margin-bottom: 4px;
+}
+.past-event-header .text-muted { margin-top: 2px; }
+.past-event-bracket {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.past-round-block {
+  border: 1px solid var(--border-panel);
+  border-radius: var(--round-radius);
+  padding: 10px 12px;
+  background: rgba(0,0,0,.02);
+}
+.past-round-block .panel-title {
+  margin-bottom: 8px;
+  font-size: .78rem;
+}
+.past-round-block .bracket-match {
+  padding: 5px 8px;
+}
+.event-card.history-card .ec-cap {
+  font-size: .7rem;
+  color: var(--accent-blue);
 }
 
 /* ---- Utility ---- */
