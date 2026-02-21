@@ -33,10 +33,11 @@
       <a class="nav-item" data-nav="private" onclick="navTo('private')">Private Match</a>
       <div class="nav-divider"></div>
       <div class="sidebar-section-label">Tournaments</div>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="leaderboard" onclick="navToTournamentsTab('leaderboard')">Leaderboards</a>
       <a class="nav-item nav-sub active" data-nav="tournaments" data-tournaments-tab="upcoming" onclick="navToTournamentsTab('upcoming')">Upcoming</a>
       <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="myevent" onclick="navToTournamentsTab('myevent')">My Event</a>
       <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="history" onclick="navToTournamentsTab('history')">History</a>
-      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="leaderboard" onclick="navToTournamentsTab('leaderboard')">Leaderboards</a>
+      <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="fightersearch" onclick="navToTournamentsTab('fightersearch')">Fighter Search</a>
       <a class="nav-item nav-sub" data-nav="tournaments" data-tournaments-tab="howit" onclick="navToTournamentsTab('howit')">How It Works</a>
     </nav>
 
@@ -119,6 +120,16 @@
           </div>
         </div>
 
+        <!-- Tab Content: Fighter Search -->
+        <div class="tab-content hidden" id="tab-fightersearch">
+          <div class="panel">
+            <div class="panel-title">Search any fighter</div>
+            <input type="text" id="fighterSearchInput" class="fighter-search-input" placeholder="Type name or region..." oninput="searchFighters(this.value)">
+            <p class="lb-instruction mt-sm">Select a fighter to view their profile</p>
+            <div id="fighterSearchResults" class="fighter-search-results"></div>
+          </div>
+        </div>
+
         <!-- Tab Content: Leaderboard -->
         <div class="tab-content hidden" id="tab-leaderboard">
           <div class="panel" id="leaderboardPanel">
@@ -142,7 +153,7 @@
         <!-- Tab Content: How It Works -->
         <div class="tab-content hidden" id="tab-howit">
           <div class="panel how-section">
-            <h3>Swiss Mini Cup</h3>
+            <h3>Fight Night</h3>
             <p>8 players, 3 rounds, 3 fights guaranteed — no elimination.</p>
             <ul>
               <li>Every player fights all 3 rounds regardless of results.</li>
@@ -192,7 +203,7 @@
 
         <div class="flex-between">
           <div>
-            <div style="font-weight:900;font-size:1rem;" id="lobbyTitle">Swiss Mini Cup — NA #1</div>
+            <div style="font-weight:900;font-size:1rem;" id="lobbyTitle">Fight Night — NA #1</div>
             <div class="text-muted" id="lobbyMeta">Swiss • 3 fights guaranteed • 8 players</div>
           </div>
           <div id="lobbyActions"></div>
@@ -301,7 +312,20 @@
   <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
   <div class="drawer" id="drawer">
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
-    <div class="drawer-name" id="drawerName">Player Name</div>
+    <div class="drawer-profile-header">
+      <div class="drawer-avatar-wrap" id="drawerAvatarWrap">
+        <div class="drawer-avatar" id="drawerAvatar">?</div>
+        <div class="drawer-avatar-badges" id="drawerAvatarBadges"></div>
+      </div>
+      <div class="drawer-header-right">
+        <div class="drawer-name" id="drawerName">Player Name</div>
+        <div class="drawer-thumbs" id="drawerThumbs" title="Thumbs up from opponents">
+          <span class="drawer-thumbs-icon" aria-hidden="true">↑</span>
+          <span class="drawer-thumbs-count" id="drawerThumbsCount">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-cosmetics" id="drawerCosmetics"></div>
     <div id="drawerDetails"></div>
   </div>
 </div><!-- /tablet -->
