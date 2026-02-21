@@ -384,6 +384,20 @@ body {
 }
 .return-btn:hover { color: var(--text-dark); }
 
+/* Clickable fighter name (opens profile drawer) */
+.fighter-name-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.fighter-name-link:hover {
+  color: var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+  text-decoration: none;
+}
+
 /* ---- Event Cards ---- */
 .event-list { display: flex; flex-direction: column; gap: 10px; }
 
@@ -601,6 +615,37 @@ body {
 }
 .lb-row:hover .lb-icon { opacity: 1; }
 
+/* ---- Fighter Search tab ---- */
+.fighter-search-input {
+  width: 100%;
+  font-size: .9rem;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-panel);
+  border-radius: var(--round-radius);
+  margin-bottom: 8px;
+  font-family: var(--font-main);
+}
+.fighter-search-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+.fighter-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.fighter-search-row .fighter-search-avatar {
+  width: 32px; height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 800;
+}
+
 /* ---- Player Drawer (slide-in panel) ---- */
 .drawer-overlay {
   display: none;
@@ -630,8 +675,98 @@ body {
   background: none; border: none;
 }
 
+.drawer-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.drawer-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.drawer .drawer-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #6b6560 0%, #565250 100%);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 900;
+  border: 2px solid var(--border-panel);
+}
+.drawer-avatar-badges {
+  position: absolute;
+  bottom: -2px; right: -2px;
+  display: flex; gap: 2px;
+}
+.cosmetic-badge {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .6rem;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.cosmetic-badge.free {
+  background: var(--bg-panel-dark);
+  color: var(--text-dark);
+}
+.cosmetic-badge.paid {
+  background: var(--gold);
+  color: #1a1a1a;
+}
+
+.drawer-header-right {
+  flex: 1;
+  min-width: 0;
+}
 .drawer .drawer-name {
   font-size: 1.2rem; font-weight: 900;
+}
+.drawer-thumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-mid);
+}
+.drawer-thumbs-icon {
+  color: var(--accent-red);
+  font-size: 1rem;
+  line-height: 1;
+}
+.drawer-thumbs-count {
+  color: var(--text-dark);
+}
+
+.drawer-cosmetics-label {
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.drawer-cosmetics-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cosmetic-tag {
+  font-size: .7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.cosmetic-tag.free {
+  background: rgba(0,0,0,.06);
+  color: var(--text-mid);
+  border: 1px solid var(--border-panel);
+}
+.cosmetic-tag.paid {
+  background: rgba(212,164,55,.2);
+  color: #6b5210;
+  border: 1px solid var(--gold);
 }
 
 .drawer .drawer-row {
@@ -824,4 +959,110 @@ body {
   .sidebar .nav-item { font-size: .72rem; padding: 6px 8px; }
   .pairings-grid { grid-template-columns: 1fr; }
   .content { padding: 12px 14px; }
+}
+
+/* ---- Mobile landscape: maximize usable space, prevent cutoff ---- */
+@media (max-height: 500px) and (orientation: landscape) {
+  html { font-size: 13px; }
+  body {
+    padding: 4px;
+    align-items: stretch;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  /* Size by height (limiting factor in landscape); avoid vmin which shrinks too much */
+  .tablet-wrap {
+    width: min(100%, calc((100dvh - 8px) * 920 / 540));
+    max-width: 100%;
+    max-height: calc(100dvh - 8px);
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: 920 / 540;
+    margin: 0 auto;
+  }
+  .tablet {
+    border-width: 2px;
+    border-radius: 8px;
+  }
+  .header {
+    padding: 6px 12px 6px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .header-title { font-size: 1.2rem; }
+  .header-subtitle { font-size: .65rem; }
+  .version-tag { font-size: .58rem; padding: 1px 5px; }
+  .main { min-height: 0; }
+  .sidebar {
+    width: 100px;
+    padding: 8px 0 8px 8px;
+    border-right-width: 1px;
+  }
+  .sidebar .nav-item { font-size: .65rem; padding: 4px 6px; }
+  .sidebar .nav-sub { font-size: .62rem; padding-left: 12px; padding-top: 3px; padding-bottom: 3px; }
+  .sidebar-section-label { font-size: .62rem; padding: 6px 8px 2px; }
+  .content {
+    padding: 8px 12px;
+    gap: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .player-banner {
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .player-banner .player-icon { width: 24px; height: 24px; font-size: .7rem; }
+  .player-banner .player-name { font-size: .82rem; }
+  .player-banner .player-meta { font-size: .62rem; gap: 8px; }
+  .panel { padding: 8px 10px; }
+  .panel-title { font-size: .72rem; margin-bottom: 6px; }
+  .tab-btn { padding: 5px 10px; font-size: .68rem; }
+  .btn { padding: 6px 14px; font-size: .7rem; }
+  .btn-sm { padding: 4px 10px; font-size: .65rem; }
+  /* Tables: horizontal scroll so they don't overflow */
+  .panel:has(.fighter-table),
+  .panel:has(.standings-table) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .fighter-table, .standings-table {
+    font-size: .68rem;
+  }
+  .fighter-table th, .fighter-table td,
+  .standings-table th, .standings-table td {
+    padding: 4px 6px;
+    white-space: nowrap;
+  }
+  .fighter-table th { font-size: .6rem; }
+  .standings-table th { font-size: .6rem; }
+  .event-card { padding: 8px 10px; gap: 8px; }
+  .event-card .ec-title { font-size: .78rem; }
+  .event-card .ec-meta { font-size: .62rem; }
+  .event-card .ec-status { font-size: .62rem; padding: 2px 6px; }
+  .pairing-card { padding: 8px; }
+  .pairing-card .match-label { font-size: .6rem; }
+  .pairing-card .vs-row { font-size: .72rem; }
+  .countdown { font-size: 1rem; padding: 6px 0; }
+  .drawer { width: 260px; padding: 14px 12px; }
+  .drawer .drawer-avatar { width: 44px; height: 44px; font-size: 1.2rem; }
+  .drawer .drawer-name { font-size: 1rem; }
+  .return-btn { font-size: .7rem; }
+  .lb-row { padding: 6px 8px; }
+  .lb-row .lb-rank { font-size: .75rem; width: 24px; }
+  .place-badge { width: 22px; height: 22px; font-size: .65rem; }
+  .seed-badge { width: 20px; height: 20px; font-size: .6rem; }
+  /* Dev panel: collapse by default on mobile */
+  .dev-panel.collapsed { transform: translateY(calc(100% - 26px)); }
+  .dev-toggle { font-size: .6rem; padding: 3px 10px; top: -26px; }
+  .dev-inner { padding: 8px 12px; gap: 12px; }
+}
+
+/* Additional: very narrow landscape (e.g. small phones) */
+@media (max-height: 400px) and (orientation: landscape) {
+  html { font-size: 12px; }
+  .sidebar { width: 80px; }
+  .sidebar .nav-item { font-size: .58rem; padding: 3px 4px; }
+  .sidebar .nav-sub { font-size: .56rem; padding-left: 8px; }
+  .header-title { font-size: 1rem; }
 }
